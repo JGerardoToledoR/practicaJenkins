@@ -6,7 +6,7 @@ pipeline {
         stage('Parando servicios anteriores') {
             steps {
                 bat '''
-                    docker compose -p SUMAAPP down || exit /b 0
+                    docker compose -p practica down || exit /b 0
                 '''
             }
         }
@@ -14,7 +14,7 @@ pipeline {
         stage('Eliminando imágenes anteriores') {
             steps {
                 bat '''
-                    for /f "tokens=*" %%i in ('docker images --filter "label=com.docker.compose.project=SUMAAPP" -q') do (
+                    for /f "tokens=*" %%i in ('docker images --filter "label=com.docker.compose.project=practica" -q') do (
                         docker rmi -f %%i
                     )
                     if errorlevel 1 (
@@ -35,7 +35,7 @@ pipeline {
         stage('Construyendo y levantando servicio web') {
             steps {
                 bat '''
-                    docker compose -p SUMAAPP up --build -d
+                    docker compose -p practica up --build -d
                 '''
             }
         }
